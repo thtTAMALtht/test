@@ -1,18 +1,28 @@
+//custom function
+const getElementId = (id) => document.getElementById(id);
+
 //active category button
 const removeAutoActive = () => {
     const remove = document.querySelectorAll('.auto-active');
     remove.forEach(rmv => rmv.classList.remove('active'))
 }
 
-//spinner
-const showSpinner = (status)=>{
-  if(status){
-    document.getElementById('spinner').classList.remove('hidden');
-    document.getElementById('all-plants-container').classList.add('hidden');
-  }else{
-    document.getElementById('spinner').classList.add('hidden');
-    document.getElementById('all-plants-container').classList.remove('hidden');
-  }
+//all tress single button code
+getElementId('all-trees-container').addEventListener('click', function() {
+    removeAutoActive();
+    this.classList.add('active');
+    fetchAllPlants();
+});
+
+//spinner code
+const showSpinner = (status) => {
+    if (status) {
+        getElementId('spinner').classList.remove('hidden');
+        getElementId('all-plants-container').classList.add('invisible');
+    } else {
+        getElementId('spinner').classList.add('hidden');
+        getElementId('all-plants-container').classList.remove('invisible');
+    }
 }
 
 //fetch categories
@@ -24,7 +34,7 @@ const fetchCategories = () => {
 
 //display categories
 const displayCategories = (items) => {
-    const categoriesContainer = document.getElementById('Categories-container');
+    const categoriesContainer = getElementId('Categories-container');
     categoriesContainer.innerHTML = '';
     items.forEach(item => {
         const categoriesDiv = document.createElement('div');
@@ -37,18 +47,21 @@ const displayCategories = (items) => {
 
 fetchCategories()
 
-//fetch all plants
 
+//fetch all plants
 const fetchAllPlants = () => {
+    showSpinner(true)
     fetch("https://openapi.programming-hero.com/api/plants")
         .then(res => res.json())
-        .then(plant => displayAllPlants(plant.plants))
+        .then(plant => {
+            displayAllPlants(plant.plants);
+            showSpinner(false);
+        })
 }
 
 //display all plants
-
 const displayAllPlants = (plants) => {
-    const allPlantsContainer = document.getElementById('all-plants-container');
+    const allPlantsContainer = getElementId('all-plants-container');
     allPlantsContainer.innerHTML = '';
     plants.forEach(plant => {
         const allPlantsDiv = document.createElement('div');
@@ -77,6 +90,7 @@ const displayAllPlants = (plants) => {
 }
 fetchAllPlants()
 
+
 //fetch Plants Detail
 const plantDetails = (id) => {
     fetch(`https://openapi.programming-hero.com/api/plant/${id}`)
@@ -85,7 +99,7 @@ const plantDetails = (id) => {
 }
 
 const displayPlantDetails = (plants) => {
-    const modalContainer = document.getElementById('modal-container');
+    const modalContainer = getElementId('modal-container');
     modalContainer.innerHTML = `
     <div class="bg-white rounded-xl p-2 placeholder:flex flex-col justify-between h-full w-full">
                 <div class="border border-green-200 rounded-xl p-4">
@@ -100,39 +114,38 @@ const displayPlantDetails = (plants) => {
             </div>
   `;
 
-    document.getElementById('my_modal').showModal();
-
+    getElementId('my_modal').showModal();
 }
 
 //fetch plants by its category id
 
 const loadTree = (id) => {
-   showSpinner(true)
+    showSpinner(true)
     fetch(`https://openapi.programming-hero.com/api/category/${id}`)
         .then(res => res.json())
         .then(data => {
             removeAutoActive();
-            const clickBtn = document.getElementById(`category-${id}`)
+            const clickBtn = getElementId(`category-${id}`)
             clickBtn.classList.add('active')
-            displaySpecifiqTree(data.plants)
-            showSpinner(false);
+            displaySpecificTree(data.plants)
+            showSpinner(false)
         })
 }
 
-//display Specifiq Tree
-const displaySpecifiqTree = (trees) => {
-    const plantsConatiner = document.getElementById('all-plants-container');
+//display Specific Tree
+const displaySpecificTree = (trees) => {
+    const plantsConatiner = getElementId('all-plants-container');
     plantsConatiner.innerHTML = '';
 
     trees.forEach(tree => {
         const treeDiv = document.createElement('div');
         treeDiv.innerHTML = `
       <div class="p-4 bg-white rounded-lg flex flex-col justify-between h-full shadow-md">
-              <div class="space-y-4">
+              <div class="space-y-4 flex flex-col flex-1">
                 <img class="w-full h-[300px] object-cover rounded-lg" src="${tree.image}" alt="card image">
                 <h3 onclick="plantDetails(${tree.id})" class="font-semibold cursor-pointer">${tree.name}</h3>
                 <p class="text-sm text-[#4C545F]">${tree.description}</p>
-                <div class="flex justify-between items-center pb-4">
+                <div class="flex justify-between items-center pb-4 mt-auto">
                   <button
                     class="bg-[#DCFCE7] rounded-full px-5 py-2 text-[#15803D]">${tree.category}</button>
                   <h5>৳${tree.price}</h5>
@@ -140,66 +153,57 @@ const displaySpecifiqTree = (trees) => {
               </div>
               <div>
                 <button
-                  class="cart-btn w-full rounded-full bg-[#15803D] text-white p-3">Add to Cart</button>
+                  class="cart-btn w-full rounded-full bg-[#15803D] text-white p-3 cursor-pointer">Add to Cart</button>
               </div>
             </div>
     `
         plantsConatiner.appendChild(treeDiv)
-        //  showSpinner(false)
     });
 }
 
 //add to cart start
 let amount = 0;
-const totalAmount = document.getElementById('total-amount');
-const cartItems = document.getElementById('cart-items');
-const totalAmountContainer = document.getElementById('total-amount-container');
+const totalAmount = getElementId('total-amount');
+const cartItems = getElementId('cart-items');
+const totalAmountContainer = getElementId('total-amount-container');
 
-
-
-document.getElementById('all-plants-container').addEventListener('click', function(e) {
-  if (e.target.classList.contains('cart-btn')) {
-    alert('item added successfully')
-    totalAmountContainer.classList.remove('hidden');
-    const treeCard = e.target.parentNode.parentNode;
-    const treeName = treeCard.children[0].children[1].innerText;
-    const treePriceText =treeCard.children[0].children[3].children[1].innerText;
-    const treePrice = Number(treePriceText.replace('৳',''));
-    
-
-   const totalCartDiv = document.createElement('div');
-    totalCartDiv.className = 'flex justify-between items-center p-4 rounded-lg bg-[#F0FDF4] mb-4';
-   totalCartDiv.innerHTML = `
-    <div>
-        <h4 class="font-bold">${treeName}</h4>
-        <p>৳ <span>${treePrice}</span></p>
-    </div>
-      <i class="fa-solid fa-xmark text-red-500 cursor-pointer remove-item"></i>
-   
-   `
-    cartItems.appendChild(totalCartDiv)
-
-    amount = amount + treePrice;
-    totalAmount.innerText = amount;
-  }
+getElementId('all-plants-container').addEventListener('click', function(e) {
+    if (e.target.classList.contains('cart-btn')) {
+        alert('item added successfully')
+        totalAmountContainer.classList.remove('hidden');
+        const treeCard = e.target.parentNode.parentNode;
+        const treeName = treeCard.children[0].children[1].innerText;
+        const treePriceText = treeCard.children[0].children[3].children[1].innerText;
+        const treePrice = Number(treePriceText.replace('৳', ''));
+        const totalCartDiv = document.createElement('div');
+        totalCartDiv.className = 'flex justify-between items-center p-4 rounded-lg bg-[#F0FDF4] mb-4';
+        totalCartDiv.innerHTML = `
+          <div>
+            <h4 class="font-bold">${treeName}</h4>
+            <p>৳ <span>${treePrice}</span></p>
+          </div>
+          <i class="fa-solid fa-xmark text-red-500 cursor-pointer remove-item"></i>
+          `
+        cartItems.appendChild(totalCartDiv)
+        amount = amount + treePrice;
+        totalAmount.innerText = amount;
+    }
 });
 
 //remove cart items
-cartItems.addEventListener('click',function(e){
-  if(e.target.classList.contains('remove-item')){
-    alert('item removed successfully');
-    const cartItem = e.target.parentNode;
-    const cartItemPrice = Number(cartItem.children[0].children[1].children[0].innerText);
-     
-    amount = amount - cartItemPrice;
-     totalAmount.innerText = amount;
-      cartItem.remove();
-if(cartItems.children.length === 0){
-    totalAmountContainer.classList.add('hidden');
-    amount = 0;                                     // হিসাব রিসেট
-    totalAmount.innerText = amount;
-  }
-  }
+cartItems.addEventListener('click', function(e) {
+    if (e.target.classList.contains('remove-item')) {
+        alert('item removed successfully');
+        const cartItem = e.target.parentNode;
+        const cartItemPrice = Number(cartItem.children[0].children[1].children[0].innerText);
+
+        amount = amount - cartItemPrice;
+        totalAmount.innerText = amount;
+        cartItem.remove();
+        if (cartItems.children.length === 0) {
+            totalAmountContainer.classList.add('hidden');
+            amount = 0;
+            totalAmount.innerText = amount;
+        }
+    }
 })
-
-

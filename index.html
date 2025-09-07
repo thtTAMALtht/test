@@ -8,17 +8,22 @@
     <link rel="shortcut icon" href="images/hero-leaf1.png" type="image/x-icon">
     <!-- daisy ui cdn -->
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+
     <!-- tailwind css cdn -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
     <!-- google fonts-Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    
     <!-- fontawesome cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
     <!-- custom css -->
     <link rel="stylesheet" href="./css/style.css">
   </head>
+  
   <body>
     <header class="bg-[#15803D]">
       <nav class="flex flex-col md:flex-row justify-between items-center container mx-auto py-5 text-center md:text-left space-y-4 md:space-y-0">
@@ -66,15 +71,23 @@
       <section>
         <h3 class="font-semibold text-2xl text-center py-12">Choose Your Trees</h3>
       </section>
-      <section id="spinner" class="flex justify-center pb-8 hidden"><span class="loading loading-spinner text-primary"></span><span class="loading loading-spinner text-secondary"></span><span class="loading loading-spinner text-accent"></span><span class="loading loading-spinner text-neutral"></span><span class="loading loading-spinner text-info"></span><span class="loading loading-spinner text-success"></span><span class="loading loading-spinner text-warning"></span><span class="loading loading-spinner text-error"></span>
+      <!-- spinner -->
+      <section id="spinner" class="flex justify-center pb-8 hidden">
+        <span class="loading loading-spinner text-primary"></span>
+        <span class="loading loading-spinner text-secondary"></span>
+        <span class="loading loading-spinner text-accent"></span>
+        <span class="loading loading-spinner text-neutral"></span>
+        <span class="loading loading-spinner text-info"></span>
+        <span class="loading loading-spinner text-success"></span>
+        <span class="loading loading-spinner text-warning"></span>
+        <span class="loading loading-spinner text-error"></span>
       </section>
-
-      
-
+      <!-- spinner -->
       <section>
         <div class="grid grid-cols-12 container mx-auto gap-4">
           <div class="col-span-12 md:col-span-2  mx-auto">
             <h3 class="font-semibold pb-4 text-xl ">Categories</h3>
+            <a id="all-trees-container" class="auto-active w-full flex justify-start rounded-sm text-[#1F2937] cursor-pointer p-2 mb-1">All Trees</a>
             <div id="Categories-container">
               <!-- <a class=" w-full flex justify-start bg-teal-400 rounded-sm text-[#1F2937] cursor-pointer p-2 mb-1">All Categories</a> -->
             </div>
@@ -90,19 +103,15 @@
                   Cart</button></div></div> -->
             <!-- card end-->
           </div>
-
           <div class="col-span-12 md:col-span-2  bg-white rounded-lg shadow-md p-4 space-y-4">
             <h3 class="text-xl font-bold text-center">Your Cart</h3>
             <div class="space-y-4 ">
-                <div id="cart-items">
-
-
-                </div>
-                <div id="total-amount-container" class="hidden">
-                    <p class="text-center">
-                    <span class="font-semibold">Total Amount:</span> ৳ <span id="total-amount">0</span>
-                    </p>
-                </div>
+              <div id="cart-items"></div>
+              <div id="total-amount-container" class="hidden">
+                <p class="text-center">
+                  <span class="font-semibold">Total Amount:</span> ৳ <span id="total-amount">0</span>
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -129,9 +138,9 @@
       <section>
         <h3 class="font-semibold text-2xl text-center pt-20 pb-8">About the Campaign</h3>
       </section>
-      <section class="grid grid-cols-12 gap-4 px-4 md:px-0 pb-16">
-        <div class="col-span-12 md:col-span-3"></div>
-        <div class="col-span-12 md:col-span-6">
+      <section class="grid grid-cols-12 gap-4 px-4 md:px-0 pb-16 container mx-auto">
+        <div class="col-span-12 md:col-span-2"></div>
+        <div class="col-span-12 md:col-span-8">
           <div class="flex flex-col md:flex-row items-center gap-6">
             <div class="flex-1">
               <img class="w-full shadow-md rounded-lg" src="images/about.png" alt="Campaign image">
@@ -146,7 +155,7 @@
             </div>
           </div>
         </div>
-        <div class="col-span-12 md:col-span-3"></div>
+        <div class="col-span-12 md:col-span-2"></div>
       </section>
       <!-- campaign part end -->
       <section class="bg-[#CFF0DC] py-16">
