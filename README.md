@@ -32,7 +32,7 @@
 - **Template literals** use backticks `` ` `` instead of quotes `'` or `"`.
 - Template literals can create multi-line strings without using `\n`.
 - String concatenation uses the `+` operator to join strings and variables.
-- But template literals use backticks `` ` `` and `${}` to insert variables directly inside strings.
+- But template literals use  `${}` to insert variables directly inside strings.
 
 
 
